@@ -1,12 +1,32 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
+<script>
+import { mapState } from 'vuex'
+export default {
+  computed: {
+    ...mapState(['userList', 'isAddId'])
+  },
+  methods: {
+    addId () {
+      this.userList.forEach(element => {
+        element.id = this.getId()
+      })
+    },
+    getId () {
+      const id = `f${(+new Date() + Math.floor(Math.random() * Math.floor(2048))).toString(16)} `
+      return id
+    }
+  },
+  created () {
+    if (!this.isAddId) {
+      this.addId()
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -30,3 +50,4 @@
   }
 }
 </style>
+<style lang="scss" src="./assets/scss/common.scss" />
